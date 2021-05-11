@@ -1,10 +1,6 @@
 const preQuery = (method) => {
     let myHeaders = new Headers();
-<<<<<<< HEAD
-    myHeaders.append("Authorization", "Bearer BQDH4T2RcPTOV4RRv062Dhqzt85qAoOiP9jP3bXe2MqhmZdke21Axxpp16pQzVefT9PcmIEYPSDgNOPtLYI");
-=======
     myHeaders.append("Authorization", "Bearer BQCFLMojMjCqXWfcfDt9WFVTnrXprmxl6Pq2CxNgwYDpauxi6RyvqChrfb3T8kHSMZo-SkOLH9RQitI3t5w");
->>>>>>> crisfon6
 
     let requestOptions = {
         method: method,
@@ -14,11 +10,7 @@ const preQuery = (method) => {
     return requestOptions;
 }
 
-<<<<<<< HEAD
-    console.log(albums)
 
-    albums.slice(0, 6).forEach(album => {
-=======
 let globalData = [];
 
 const filter = (search) => {
@@ -40,7 +32,7 @@ const draw = (albums) => {
         albums = albums.slice(0, 6);
     }
     albums.forEach(album => {
->>>>>>> crisfon6
+
         let div = document.createElement('div');
         div.setAttribute('class', 'col');
 
