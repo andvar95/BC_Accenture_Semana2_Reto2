@@ -153,7 +153,9 @@ img {
   text-align: justify;
 }
 
+
 footer p {
+  margin:0;
   text-align: center;
 }
 
@@ -165,4 +167,8 @@ footer p {
 
 .history h2 {
   font-size: 36px;
+}
+
+.white{
+  color:white;
 }
