@@ -125,9 +125,6 @@ const getArtist = () => {
 }
 const getAlbums = async() => {
     const requestOptions = await preQuery('GET');
-
-
-
     const resp = await fetch("https://api.spotify.com/v1/artists/7jy3rLJdDQY21OgRLCZ9sD/albums", requestOptions);
     if (resp.status == 401) {
         await getToken();
