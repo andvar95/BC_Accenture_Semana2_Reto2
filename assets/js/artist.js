@@ -15,7 +15,7 @@ const draw = (data) => {
     let dataJson = JSON.parse(data);
     const albums = dataJson['items'];
 
-    albums.forEach(album => {
+    albums.slice(0, 5).forEach(album => {
         let div = document.createElement('div');
         div.setAttribute('class', 'col');
 
