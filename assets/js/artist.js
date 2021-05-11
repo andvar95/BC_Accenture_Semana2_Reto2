@@ -1,7 +1,6 @@
 const preQuery = (method) => {
-
     let myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer BQB-SkxKHtvEjwpxVt3AmczDnK2CEDa61MDPRZchLiaShGGpOUEt9jt3rVmWCRi05oq0u3hDNfQplx4eAnA9gstIIqMnPmXAma4CBLk8a4XUdysdTN8Qt1g0v3b0O0AWuegEZTPZQ7awcQaM");
+    myHeaders.append("Authorization", "Bearer BQCFLMojMjCqXWfcfDt9WFVTnrXprmxl6Pq2CxNgwYDpauxi6RyvqChrfb3T8kHSMZo-SkOLH9RQitI3t5w");
 
     let requestOptions = {
         method: method,
@@ -10,14 +9,33 @@ const preQuery = (method) => {
     };
     return requestOptions;
 }
-const draw = (data) => {
-    let albumsDiv = document.getElementById('albums');
-    let dataJson = JSON.parse(data);
-    const albums = dataJson['items'];
 
-    albums.slice(0, 5).forEach(album => {
+let globalData = [];
+
+const filter = (search) => {
+
+    const result = globalData.filter(album => album['name'].indexOf(search) !==
+        -1);
+    console.log(result);
+    draw(result);
+}
+
+
+const draw = (albums) => {
+    let albumsDiv = document.getElementById('albums');
+    albumsDiv.innerHTML = '';
+    console.log(albums);
+    let tracksPage = window.location.href.replace('albums.html', 'tracks.html');
+    console.log(tracksPage);
+    if (window.location.href.includes('index')) {
+        albums = albums.slice(0, 6);
+    }
+    albums.forEach(album => {
         let div = document.createElement('div');
         div.setAttribute('class', 'col');
+
+        let a = document.createElement('a');
+        a.setAttribute('href', '#tracks');
 
         let divCard = document.createElement('div');
         divCard.setAttribute('class', 'card h-100');
@@ -48,8 +66,12 @@ const draw = (data) => {
         divCard.appendChild(img);
         divCard.appendChild(divBody);
         divCard.appendChild(divFooter);
+        a.appendChild(divCard);
+        div.appendChild(a);
+        div.addEventListener('click', () => {
+            getTracks(album['id'], album['name']);
+        });
 
-        div.appendChild(divCard);
         albumsDiv.appendChild(div);
 
     });
@@ -58,19 +80,79 @@ const getArtist = () => {
 
     const requestOptions = preQuery('GET');
     fetch("https://api.spotify.com/v1/artists/7jy3rLJdDQY21OgRLCZ9sD", requestOptions)
-        .then(draw)
+        .then(resp => resp.text())
+        .then(console.log)
         .catch(error => console.log('error', error));
 
 }
 const getAlbums = () => {
     const requestOptions = preQuery('GET');
     fetch("https://api.spotify.com/v1/artists/7jy3rLJdDQY21OgRLCZ9sD/albums", requestOptions)
-        // .then(response => response.text())
         .then(resp => resp.text())
-        .then(draw)
+        .then(resp => {
+            let dataJson = JSON.parse(resp);
+            let albums = dataJson['items'];
+            globalData = albums;
+            return albums;
+        })
+        .then(resp => filter('', resp))
         .catch(error => console.log('error', error));
 }
+const drawTracks = (data, album) => {
 
-// getArtist();
+    let tracks = document.getElementById('tracks');
+    tracks.innerHTML = "";
+    console.log('DRAWTRACKS', data);
+    data.forEach((track) => {
+        tracks.innerHTML += `
+        <div>
+        <h2>${album}</h2>
+        <h3>${track['name']
+    }</h3>    
+    <audio controls> 
+             <source src=${track['preview_url']} type="audio/mp3">
+              Your browser does not support the audio element.      
+       </audio>
+       </div>`
 
-getAlbums();
+
+
+    });
+}
+
+const getTracks = (id, name) => {
+    // window.location.replace(window.location.href.replace('albums.html', 'tracks.html'));
+    console.log('tracks');
+    const requestOptions = preQuery('GET');
+    fetch(`https://api.spotify.com/v1/albums/${id}/tracks`, requestOptions)
+        .then(resp => resp.text())
+        .then(resp => {
+            let dataJson = JSON.parse(resp);
+            let albums = dataJson['items'];
+            globalData = albums;
+            return albums;
+        })
+        .then((resp) => { drawTracks(resp, name) })
+        .catch(error => console.log('error', error));
+
+
+}
+
+
+if (window.location.href.includes('index')) {
+    const moreAlbums = document.getElementById('moreAlbums');
+    moreAlbums.addEventListener('click', () => {
+        window.location.replace(window.location.href.replace('index.html', 'albums.html'));
+    });
+    getAlbums();
+}
+if (window.location.href.includes('albums')) {
+    let searchInput = document.getElementById('search');
+    searchInput.addEventListener('input', () => {
+        filter(searchInput.value);
+    });
+    getAlbums();
+}
+if (window.location.href.includes('track')) {
+
+}
