@@ -3,6 +3,12 @@
     padding: 0;
 }
 
+html{
+    scroll-behavior: smooth;
+}
+
+
+
 ul {
     list-style: none
 }
@@ -13,6 +19,11 @@ ul {
     background-color: black;
     color: white;
     border: 1px solid black;
+}
+
+.navbar a{
+    text-decoration: none;
+    color:white;
 }
 
 .logo {

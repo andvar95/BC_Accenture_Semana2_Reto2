@@ -1,7 +1,7 @@
 const preQuery = (method) => {
 
     let myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer BQB-SkxKHtvEjwpxVt3AmczDnK2CEDa61MDPRZchLiaShGGpOUEt9jt3rVmWCRi05oq0u3hDNfQplx4eAnA9gstIIqMnPmXAma4CBLk8a4XUdysdTN8Qt1g0v3b0O0AWuegEZTPZQ7awcQaM");
+    myHeaders.append("Authorization", "Bearer BQDH4T2RcPTOV4RRv062Dhqzt85qAoOiP9jP3bXe2MqhmZdke21Axxpp16pQzVefT9PcmIEYPSDgNOPtLYI");
 
     let requestOptions = {
         method: method,
@@ -15,7 +15,9 @@ const draw = (data) => {
     let dataJson = JSON.parse(data);
     const albums = dataJson['items'];
 
-    albums.slice(0, 5).forEach(album => {
+    console.log(albums)
+
+    albums.slice(0, 6).forEach(album => {
         let div = document.createElement('div');
         div.setAttribute('class', 'col');
 
