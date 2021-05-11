@@ -156,3 +156,13 @@ img {
 footer p {
   text-align: center;
 }
+
+.history {
+  padding: 100px;
+  font-size: 24px;
+  text-align: justify;
+}
+
+.history h2 {
+  font-size: 36px;
+}
