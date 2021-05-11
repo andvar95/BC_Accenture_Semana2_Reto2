@@ -1,11 +1,21 @@
-const preQuery = async(method) => {
+let globalData = [];
+
+const getToken = async() => {
     let requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
-    let bearrer = await fetch("https://spotfiy-token.herokuapp.com/spotify/", requestOptions);
+    let resp = await fetch("https://spotfiy-token.herokuapp.com/spotify/", requestOptions);
+    let bearrer = await resp.text();
+    bearrer = JSON.parse(bearrer)['access_token'];
+    localStorage.setItem('Bearrer', bearrer)
+}
+
+const preQuery = async(method) => {
+
 
     let myHeaders = new Headers();
+    const bearrer = localStorage.getItem('Bearrer')
     myHeaders.append("Authorization", `Bearer ${bearrer}`);
 
     requestOptions = {
@@ -17,7 +27,6 @@ const preQuery = async(method) => {
 }
 
 
-let globalData = [];
 
 const filter = (search) => {
 
@@ -84,27 +93,6 @@ const draw = (albums) => {
 
     });
 }
-const getArtist = () => {
-
-    const requestOptions = preQuery('GET');
-    fetch("https://api.spotify.com/v1/artists/7jy3rLJdDQY21OgRLCZ9sD", requestOptions)
-        .then(resp => resp.text())
-        .catch(error => console.log('error', error));
-
-}
-const getAlbums = () => {
-    const requestOptions = preQuery('GET');
-    fetch("https://api.spotify.com/v1/artists/7jy3rLJdDQY21OgRLCZ9sD/albums", requestOptions)
-        .then(resp => resp.text())
-        .then(resp => {
-            let dataJson = JSON.parse(resp);
-            let albums = dataJson['items'];
-            globalData = albums;
-            return albums;
-        })
-        .then(resp => filter('', resp))
-        .catch(error => console.log('error', error));
-}
 const drawTracks = (data, album) => {
 
     let tracks = document.getElementById('tracks');
@@ -124,22 +112,52 @@ const drawTracks = (data, album) => {
     });
 }
 
-const getTracks = (id, name) => {
+const getArtist = () => {
 
     const requestOptions = preQuery('GET');
-    fetch(`https://api.spotify.com/v1/albums/${id}/tracks`, requestOptions)
+    fetch("https://api.spotify.com/v1/artists/7jy3rLJdDQY21OgRLCZ9sD", requestOptions)
         .then(resp => resp.text())
-        .then(resp => {
-            let dataJson = JSON.parse(resp);
-            let albums = dataJson['items'];
-            globalData = albums;
-            return albums;
-        })
-        .then((resp) => { drawTracks(resp, name) })
-        .catch(error => console.log('error', error));
-
+        .catch(async(error) => {
+            await getToken();
+            getArtist();
+        });
 
 }
+const getAlbums = async() => {
+    const requestOptions = await preQuery('GET');
+
+
+
+    const resp = await fetch("https://api.spotify.com/v1/artists/7jy3rLJdDQY21OgRLCZ9sD/albums", requestOptions);
+    if (resp.status == 401) {
+        await getToken();
+        getAlbums();
+    }
+
+    let data = await resp.text();
+    data = JSON.parse(data);
+
+    const albums = data['items'];
+    globalData = albums;
+    filter('', );
+}
+const getTracks = async(id, name) => {
+    const requestOptions = await preQuery('GET');
+
+    const resp = await fetch(`https://api.spotify.com/v1/albums/${id}/tracks`, requestOptions);
+    if (resp.status == 401) {
+        await getToken();
+        getTracks();
+    }
+    let data = await resp.text();
+    data = JSON.parse(data);
+    const tracks = data['items'];
+    globalData = albums;
+    drawTracks(tracks, name);
+
+}
+
+
 
 
 if (window.location.href.includes('index')) {
