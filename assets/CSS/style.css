@@ -13,6 +13,9 @@ html {
 ul {
   list-style: none;
 }
+img {
+  filter: grayscale(100%);
+}
 
 .title {
   position: absolute;
@@ -61,7 +64,6 @@ ul {
 }
 
 .banner {
-  opacity: 0.8;
   background-image: url(../img/Foo-Fighters-1.jpg);
   height: 600px;
   background-repeat: no-repeat;
@@ -145,4 +147,12 @@ ul {
 }
 .tablaVM .tdVM {
   padding: 50px;
+}
+
+.card-text {
+  text-align: justify;
+}
+
+footer p {
+  text-align: center;
 }
