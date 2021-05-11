@@ -80,6 +80,37 @@ grid-template-columns: 25% 25% 25% 25%;
     border:1px solid black;
 }
 
+.integrantes{
+    display:flex;
+    align-items:center;
+    flex-direction:column;
+}
+
+.integrantes h2{
+    font-size:50px;
+    margin-bottom:15px;
+    
+    }
+
+.integrantes li {
+    display:flex;
+    justify-content: center;
+}
+
+.integrantes ul {
+    max-width:100%;
+    width:100%;
+display:grid;
+grid-template-columns: 25% 25% 25% 25%;
+
+}
+
+.integrantes div {
+    width:200px;
+    height:250px;
+    border-radius:10px;
+    border:1px solid black;
+}
 
 
 .footer{
