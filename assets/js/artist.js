@@ -3,7 +3,7 @@ const preQuery = async(method) => {
         method: 'GET',
         redirect: 'follow'
     };
-    let bearrer = await fetch("https://spotfiy-token.herokuapp.com/spotify/", requestOptions)
+    let bearrer = await fetch("https://spotfiy-token.herokuapp.com/spotify/", requestOptions);
 
     let myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${bearrer}`);
@@ -32,7 +32,7 @@ const draw = (albums) => {
     let albumsDiv = document.getElementById('albums');
     albumsDiv.innerHTML = '';
 
-    let tracksPage = window.location.href.replace('albums.html', 'tracks.html');
+
 
     if (window.location.href.includes('index')) {
         albums = albums.slice(0, 6);
@@ -121,14 +121,10 @@ const drawTracks = (data, album) => {
               Your browser does not support the audio element.      
        </audio>
        </div>`
-
-
-
     });
 }
 
 const getTracks = (id, name) => {
-    // window.location.replace(window.location.href.replace('albums.html', 'tracks.html'));
 
     const requestOptions = preQuery('GET');
     fetch(`https://api.spotify.com/v1/albums/${id}/tracks`, requestOptions)
