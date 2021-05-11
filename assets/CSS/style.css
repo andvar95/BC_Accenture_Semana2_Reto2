@@ -79,3 +79,10 @@ grid-template-columns: 25% 25% 25% 25%;
     border-radius:10px;
     border:1px solid black;
 }
+
+
+
+.footer{
+    background-color:black;
+    color:white;
+}
