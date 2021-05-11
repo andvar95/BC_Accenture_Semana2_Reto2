@@ -1,8 +1,14 @@
-const preQuery = (method) => {
-    let myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer BQCFLMojMjCqXWfcfDt9WFVTnrXprmxl6Pq2CxNgwYDpauxi6RyvqChrfb3T8kHSMZo-SkOLH9RQitI3t5w");
-
+const preQuery = async(method) => {
     let requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+    let bearrer = await fetch("https://spotfiy-token.herokuapp.com/spotify/", requestOptions)
+
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${bearrer}`);
+
+    requestOptions = {
         method: method,
         headers: myHeaders,
         redirect: 'follow'
@@ -17,7 +23,7 @@ const filter = (search) => {
 
     const result = globalData.filter(album => album['name'].indexOf(search) !==
         -1);
-    console.log(result);
+
     draw(result);
 }
 
@@ -25,9 +31,9 @@ const filter = (search) => {
 const draw = (albums) => {
     let albumsDiv = document.getElementById('albums');
     albumsDiv.innerHTML = '';
-    console.log(albums);
+
     let tracksPage = window.location.href.replace('albums.html', 'tracks.html');
-    console.log(tracksPage);
+
     if (window.location.href.includes('index')) {
         albums = albums.slice(0, 6);
     }
@@ -83,7 +89,6 @@ const getArtist = () => {
     const requestOptions = preQuery('GET');
     fetch("https://api.spotify.com/v1/artists/7jy3rLJdDQY21OgRLCZ9sD", requestOptions)
         .then(resp => resp.text())
-        .then(console.log)
         .catch(error => console.log('error', error));
 
 }
@@ -104,7 +109,7 @@ const drawTracks = (data, album) => {
 
     let tracks = document.getElementById('tracks');
     tracks.innerHTML = "";
-    console.log('DRAWTRACKS', data);
+
     data.forEach((track) => {
         tracks.innerHTML += `
         <div>
@@ -124,7 +129,7 @@ const drawTracks = (data, album) => {
 
 const getTracks = (id, name) => {
     // window.location.replace(window.location.href.replace('albums.html', 'tracks.html'));
-    console.log('tracks');
+
     const requestOptions = preQuery('GET');
     fetch(`https://api.spotify.com/v1/albums/${id}/tracks`, requestOptions)
         .then(resp => resp.text())
