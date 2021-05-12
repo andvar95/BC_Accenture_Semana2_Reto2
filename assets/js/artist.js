@@ -156,8 +156,10 @@ const getTracks = async(id, name) => {
 
 
 
+console.log(window.location.href)
 
-if (window.location.href.includes('index')) {
+
+if (window.location.href.includes('index') || window.location.href === 'https://andvar95.github.io/BC_Accenture_Semana2_Reto2/') {
     const moreAlbums = document.getElementById('moreAlbums');
     moreAlbums.addEventListener('click', () => {
         window.location.replace(window.location.href.replace('index.html', 'albums.html'));
