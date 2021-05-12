@@ -5,6 +5,8 @@ const preQuery = async(method) => {
     };
     let bearrer = await fetch("https://spotfiy-token.herokuapp.com/spotify/", requestOptions);
 
+    console.log(bearrer)
+
     let myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${bearrer}`);
 
