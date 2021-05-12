@@ -8,13 +8,14 @@ const getToken = async() => {
     let resp = await fetch("https://spotfiy-token.herokuapp.com/spotify/", requestOptions);
     let bearrer = await resp.text();
     bearrer = JSON.parse(bearrer)['access_token'];
+    console.log(bearrer)
     localStorage.setItem('Bearrer', bearrer)
 }
 
 const preQuery = async(method) => {
 
 
-    console.log(bearrer)
+
 
     let myHeaders = new Headers();
     const bearrer = localStorage.getItem('Bearrer')
