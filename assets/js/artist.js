@@ -64,6 +64,7 @@ const draw = (albums) => {
         let divBody = document.createElement('div');
         divBody.setAttribute('class', 'card-body');
 
+
         let h5title = document.createElement('h5');
         h5title.setAttribute('class', 'card-title');
         h5title.innerHTML = album['name'];
